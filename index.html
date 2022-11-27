@@ -73,9 +73,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-TEST" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-XSCTF决赛-防AK-writeup" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/11/19/TEST/" class="article-date">
+    <a href="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/" class="article-date">
   <time class="dt-published" datetime="2022-11-18T16:47:44.000Z" itemprop="datePublished">2022-11-19</time>
 </a>
     
@@ -87,7 +87,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/19/TEST/">XSCTF决赛-防AK-writeup</a>
+      <a class="p-name article-title" href="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/">XSCTF决赛-防AK-writeup</a>
     </h1>
   
 
@@ -112,7 +112,7 @@
 <p><code>x18 / s2</code> (saved register)</p>
 <ul>
 <li><p>寄存器</p>
-<p>  <img src="/2022/11/19/TEST/1.png"></p>
+<p>  <img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png"></p>
 </li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://lab.cs.tsinghua.edu.cn/cod-lab-docs/labs/4-riscv-inst/">RISC-V 指令概况</a></p>
@@ -182,7 +182,7 @@
 <h1 id="Hacking1-有限域矩阵乘法"><a href="#Hacking1-有限域矩阵乘法" class="headerlink" title="Hacking1-有限域矩阵乘法"></a>Hacking1-有限域矩阵乘法</h1><p>一开始一直在纠结IDA怎么打开,打开后又不能动调不能反编译,后面折腾环境去了,决赛结束</p>
 <p>经提点用Ghidra打开,发现新世界😭</p>
 <p>先看main_func的逻辑:获取输入→进入FUN_000108d4处理input→base64_magic处理→进入FUN_00023c82进行比较</p>
-<p><img src="/2022/11/19/TEST/2.png"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/2.png"></p>
 <p>进入FUN_000108d4可以看到三个for循环,分析一下,看注释(这里就是<strong>有限域矩阵乘法</strong>)</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">FUN_000108d4</span><span class="params">(<span class="type">long</span> param_1)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  undefined8 enc1;</span><br><span class="line">  undefined8 local_48;</span><br><span class="line">  undefined8 local_40;</span><br><span class="line">  undefined local_38;</span><br><span class="line">  ulong k;</span><br><span class="line">  uint sum;</span><br><span class="line">  ulong j;</span><br><span class="line">  ulong i;</span><br><span class="line">  </span><br><span class="line">  enc1 = <span class="number">0</span>;</span><br><span class="line">  local_48 = <span class="number">0</span>;</span><br><span class="line">  local_40 = <span class="number">0</span>;</span><br><span class="line">  local_38 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i = i + <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j = j + <span class="number">1</span>) &#123;</span><br><span class="line">                      <span class="comment">/* 重置local_24 */</span></span><br><span class="line">      sum = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; <span class="number">5</span>; k = k + <span class="number">1</span>) &#123;</span><br><span class="line">                      <span class="comment">/* local_24 += fakekey[k+i*5]*a1[j+k*5] */</span></span><br><span class="line">         sum = (uint)*(byte *)(k + i * <span class="number">5</span> + <span class="number">0x7c000</span>) * (uint)*(byte *)(j + k * <span class="number">5</span> + param_1) + sum;</span><br><span class="line">      &#125;</span><br><span class="line">                      <span class="comment">/* local_50[j+i*5] = local_24 % 0x101 */</span></span><br><span class="line">      *(<span class="type">char</span> *)((<span class="type">long</span>)&amp;enc1 + j + i * <span class="number">5</span>) = (<span class="type">char</span>)(sum % <span class="number">0x101</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  FUN_000241f8(param_1,&amp;enc1,<span class="number">25</span>);</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -201,8 +201,8 @@
 
 <h1 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h1><p>写脚本时间~</p>
 <p>从FUN_00023c82得知要比较的是,因此先进行base魔改解密,注意解密细节(异或时不要异或掉填充符),得到dec1</p>
-<p><img src="/2022/11/19/TEST/3.png"></p>
-<p><img src="/2022/11/19/TEST/4.png"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/3.png"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/4.png"></p>
 <h3 id="爆破矩阵"><a href="#爆破矩阵" class="headerlink" title="爆破矩阵"></a>爆破矩阵</h3><p>这次时间主要花在了解矩阵这里 இ௰இ 我只想到了线代的基本矩阵乘法,但是结果是被模除过的,所以只知道余数不知道商,这种情况不能简单的key求逆再乘以dec1,z3也跑不出来,这时候就只有想到爆破了</p>
 <p>根据矩阵乘法原理,每次爆破input的一列,但是时间有一点久,一列就是$(126-32)^4$, 那就猜一下,前面五个就是<code>flag&#123;</code>,最后是<code>&#125;</code> ,这也少了一个数量级了</p>
 <p>然后没有写完整的脚本,在基础脚本里面改j的值和a的值就好了</p>
@@ -248,9 +248,9 @@
 </tbody></table>
 <p>flag{for_the_1ich_king!!}</p>
 <h1 id="一些备忘"><a href="#一些备忘" class="headerlink" title="一些备忘"></a>一些备忘</h1><p>input: 1234567891234567891234567</p>
-<p><img src="/2022/11/19/TEST/5.png" alt="input 0x40007ffd80"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/5.png" alt="input 0x40007ffd80"></p>
 <p>input 0x40007ffd80</p>
-<p><img src="/2022/11/19/TEST/6.png" alt="enc1 0x40007ffd30"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/6.png" alt="enc1 0x40007ffd30"></p>
 <p>enc1 0x40007ffd30</p>
 <p>FUN_000241f8需要注意:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">uVar4(a0)</span><br><span class="line">	uVar4 = -(long)input &amp; 7;</span><br><span class="line">	<span class="keyword">if</span> (uVar4 != 0)</span><br><span class="line">uVar3(s1)</span><br></pre></td></tr></table></figure>
@@ -260,7 +260,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/19/TEST/" data-id="clazauqqf0002achxb2qa6ckd" data-title="XSCTF决赛-防AK-writeup" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/" data-id="clazb7ib7000280hx78qkg3c6" data-title="XSCTF决赛-防AK-writeup" class="article-share-link">Share</a>
       
       
       
@@ -299,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/09/18/Hello-World-0/" data-id="clazauqqd0001achx7leubkaa" data-title="Hello World!" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/09/18/Hello-World-0/" data-id="clazb7ib1000080hx9f9odlg2" data-title="Hello World!" class="article-share-link">Share</a>
       
       
       
@@ -350,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/09/18/hello-world/" data-id="clazauqqa0000achxdm7f7ou9" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/09/18/hello-world/" data-id="clazb7ib5000180hx1hrc9e9g" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -393,7 +393,7 @@
       <ul>
         
           <li>
-            <a href="/2022/11/19/TEST/">XSCTF决赛-防AK-writeup</a>
+            <a href="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/">XSCTF决赛-防AK-writeup</a>
           </li>
         
           <li>
