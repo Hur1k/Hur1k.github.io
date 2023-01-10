@@ -1,82 +1,381 @@
-
 <!DOCTYPE html>
-<html lang="en" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XSCTF决赛-防AK-writeup - (施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="(施工中...闲人免进...)热乎着呢,快来坐坐~,第一篇WP (╹ڡ╹ )
-从决赛到现在大概是2周的时间,终于算是做完了😭
-Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了
-虽然花的,"> 
-    <meta name="author" content="Hur1k"> 
-    <link rel="alternative" href="atom.xml" title="(施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    
-    
-    
-    <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:title" content="XSCTF决赛-防AK-writeup - (施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧"/>
-    <meta name="twitter:description" content="(施工中...闲人免进...)热乎着呢,快来坐坐~,第一篇WP (╹ڡ╹ )
-从决赛到现在大概是2周的时间,终于算是做完了😭
-Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了
-虽然花的,"/>
-    
-    
-    
-    
-    <meta property="og:site_name" content="(施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧"/>
-    <meta property="og:type" content="object"/>
-    <meta property="og:title" content="XSCTF决赛-防AK-writeup - (施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧"/>
-    <meta property="og:description" content="(施工中...闲人免进...)热乎着呢,快来坐坐~,第一篇WP (╹ڡ╹ )
-从决赛到现在大概是2周的时间,终于算是做完了😭
-Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了
-虽然花的,"/>
-    
-<link rel="stylesheet" href="/css/diaspora.css">
+<html lang="en">
 
-    <script>window.searchDbPath = "/search.xml";</script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="第一篇WP (╹ڡ╹ ) 从决赛到现在大概是2周的时间,终于算是做完了😭 Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了 虽然花的时间比较久,但总的来说收获还是挺大的,以前一直依赖着贵妇头的动调工具,很少用到只有反汇编没有反编译的工具如gdb(gdb都不会用!该打!),另外也练习了一下矩阵类的题目,相关库(numpy,sympy)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSCTF决赛-防AK-writeup">
+<meta property="og:url" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/index.html">
+<meta property="og:site_name" content="(施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧">
+<meta property="og:description" content="第一篇WP (╹ڡ╹ ) 从决赛到现在大概是2周的时间,终于算是做完了😭 Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了 虽然花的时间比较久,但总的来说收获还是挺大的,以前一直依赖着贵妇头的动调工具,很少用到只有反汇编没有反编译的工具如gdb(gdb都不会用!该打!),另外也练习了一下矩阵类的题目,相关库(numpy,sympy)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png">
+<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/2.png">
+<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/3.png">
+<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/4.png">
+<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/5.png">
+<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/6.png">
+<meta property="article:published_time" content="2022-11-18T16:47:44.000Z">
+<meta property="article:modified_time" content="2022-11-27T11:56:31.780Z">
+<meta property="article:author" content="Hur1k">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png">
+
+
+<title >XSCTF决赛-防AK-writeup</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=0.0.0' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=0.0.0' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+
+    
+
+    
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Hur1k","root":"/","typed_text":"hahahahhahahahaharik","favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"404 Error"},"theme_version":"0.0.0","theme":{"switch":true,"default":"style-light"},"search":{"enable":true,"type":"engine","href":"https://www.google.com/search?q=site:","domain":null},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_button":"Copy","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode"},"creative_commons":{"license":"by-nc-sa","language":"deed.zh","post":false,"clipboard":false},"swup":false,"plugin":{"flickr_justified_gallery":{"js":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"fancybox":{"css":"https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css","js":"https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"}},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"fas fa-yin-yang","user":"fas fa-user-secret","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h"}};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=0.0.0" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+
+    
+
+
+
+<!-- Site Analytics -->
+ 
 <meta name="generator" content="Hexo 6.3.0"></head>
 
-<body class="loading">
-    <span id="config-title" style="display:none">(施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
-    <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">XSCTF决赛-防AK-writeup</h3>
-    <div class="social">
-        <div>
-            <div class="share">
-                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
-            </div>
-            <div id="qr"></div>
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
     </div>
-    <div class="scrollbar"></div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style=" position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+			<a href="/" class="trm-logo-frame trm-anima-link">
+				
+					<img alt="logo" src="/img/favicon.svg">
+				
+				
+			</a>
+			<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+
+			<!-- menu -->
+			<div class="trm-menu">
+				<nav>
+					<ul>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/" target="">
+								Home
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/archives/" target="">
+								Archives
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/about/" target="">
+								About
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
+							<a  href="/link/" target="">
+								menu.link
+							</a>
+							
+						</li>
+						
+					</ul>
+				</nav>
+			</div>
+			<!-- menu end -->
+			
+			<!-- mode switcher place -->
+			
+			<div class="trm-mode-switcher-place">
+				<!-- <div class="trm-hidden-switcher"> -->
+					<div class="trm-mode-switcher">
+					  <i class="iconfont far fa-sun"></i>
+					  <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+					  <label class="trm-swich" for="trm-swich"></label>
+					  <i class="iconfont far fa-moon"></i>
+					</div>
+				  <!-- </div> -->
+			</div>
+			
+			<!-- mode switcher place end -->
+
+			
+				
+					<a id="trm-search-btn" class="trm-search-btn" data-no-swup target="_blank" href="https://www.google.com/search?q=site:null">
+						<i class="iconfont fas fa-search"></i>
+					</a>
+				 
+			 
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            XSCTF决赛-防AK-writeup
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2022
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <i class="iconfont fas fa-user-alt"></i>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <i class="iconfont fas fa-th-list"></i>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Hur1k
+    </h5>
+    
+</div>
+<!-- card header end -->
+
+<!-- sidebar social -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+
+<div class="trm-social">
+    
+        <a href="https://github.com" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
 </div>
 
-    <div class="section">
-        <div class="article">
-    <div class='main'>
-        <h1 class="title">XSCTF决赛-防AK-writeup</h1>
-        <div class="stuff">
-            <span>十一月 19, 2022</span>
-            
+<!-- sidebar social end -->
 
+<!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                Residence:
+            </div>
+            <div class="trm-label trm-label-light">
+                Mars
+            </div>
+        </li>
+    
+</ul>
+
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#exp"  data-scroll-to="#exp"><span class="toc-text">exp</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#省流"  data-scroll-to="#省流"><span class="toc-text">省流</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#一些积累"  data-scroll-to="#一些积累"><span class="toc-text">一些积累</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#Riscv寄存器"  data-scroll-to="#Riscv寄存器"><span class="toc-text">Riscv寄存器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#运行-动调"  data-scroll-to="#运行-动调"><span class="toc-text">运行+动调</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#相关工具"  data-scroll-to="#相关工具"><span class="toc-text">相关工具</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#静态链接运行"  data-scroll-to="#静态链接运行"><span class="toc-text">静态链接运行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#方法1"  data-scroll-to="#方法1"><span class="toc-text">方法1</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#方法2-参考"  data-scroll-to="#方法2-参考"><span class="toc-text">方法2(参考)</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#动态链接运行-还没试过"  data-scroll-to="#动态链接运行-还没试过"><span class="toc-text">动态链接运行(还没试过)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#安装共享库-参考"  data-scroll-to="#安装共享库-参考"><span class="toc-text">安装共享库(参考)</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#指定共享库"  data-scroll-to="#指定共享库"><span class="toc-text">指定共享库</span></a></li></ol></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#动态调试"  data-scroll-to="#动态调试"><span class="toc-text">动态调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#尝试一"  data-scroll-to="#尝试一"><span class="toc-text">尝试一</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#尝试二"  data-scroll-to="#尝试二"><span class="toc-text">尝试二</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Hacking1-有限域矩阵乘法"  data-scroll-to="#Hacking1-有限域矩阵乘法"><span class="toc-text">Hacking1-有限域矩阵乘法</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Hacking2-复制"  data-scroll-to="#Hacking2-复制"><span class="toc-text">Hacking2-复制</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Hacking3-base64魔改"  data-scroll-to="#Hacking3-base64魔改"><span class="toc-text">Hacking3-base64魔改</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#EXP"  data-scroll-to="#EXP"><span class="toc-text">EXP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#爆破矩阵"  data-scroll-to="#爆破矩阵"><span class="toc-text">爆破矩阵</span></a></li><li class="toc-item toc-level-3"><a rel="nofollow" class="toc-link" href="#正规军做法"  data-scroll-to="#正规军做法"><span class="toc-text">正规军做法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Getflag"  data-scroll-to="#Getflag"><span class="toc-text">Getflag</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#一些备忘"  data-scroll-to="#一些备忘"><span class="toc-text">一些备忘</span></a></li></ol>
+</div>
+            </div>
         </div>
-        <div class="content markdown">
-            <p>第一篇WP (╹ڡ╹ )</p>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            11/19
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont fas fa-yin-yang trm-icon"></i><br>
+            00:47
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont fas fa-user-secret trm-icon"></i><br>
+            Hur1k
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <p>第一篇WP (╹ڡ╹ )</p>
 <p>从决赛到现在大概是2周的时间,终于算是做完了😭</p>
 <p>Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了</p>
 <p>虽然花的时间比较久,但总的来说收获还是挺大的,以前一直依赖着贵妇头的动调工具,很少用到只有反汇编没有反编译的工具如gdb(gdb都不会用!该打!),另外也练习了一下矩阵类的题目,相关库(numpy,sympy)的使用,继续加油~</p>
@@ -93,7 +392,7 @@ Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实�
 <p><code>x18 / s2</code> (saved register)</p>
 <ul>
 <li><p>寄存器</p>
-<p>  <img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png"></p>
+<p>  <img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png" loading="lazy"></p>
 </li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://lab.cs.tsinghua.edu.cn/cod-lab-docs/labs/4-riscv-inst/">RISC-V 指令概况</a></p>
@@ -163,7 +462,7 @@ Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实�
 <h1 id="Hacking1-有限域矩阵乘法"><a href="#Hacking1-有限域矩阵乘法" class="headerlink" title="Hacking1-有限域矩阵乘法"></a>Hacking1-有限域矩阵乘法</h1><p>一开始一直在纠结IDA怎么打开,打开后又不能动调不能反编译,后面折腾环境去了,决赛结束</p>
 <p>经提点用Ghidra打开,发现新世界😭</p>
 <p>先看main_func的逻辑:获取输入→进入FUN_000108d4处理input→base64_magic处理→进入FUN_00023c82进行比较</p>
-<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/2.png"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/2.png" loading="lazy"></p>
 <p>进入FUN_000108d4可以看到三个for循环,分析一下,看注释(这里就是<strong>有限域矩阵乘法</strong>)</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">FUN_000108d4</span><span class="params">(<span class="type">long</span> param_1)</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  undefined8 enc1;</span><br><span class="line">  undefined8 local_48;</span><br><span class="line">  undefined8 local_40;</span><br><span class="line">  undefined local_38;</span><br><span class="line">  ulong k;</span><br><span class="line">  uint sum;</span><br><span class="line">  ulong j;</span><br><span class="line">  ulong i;</span><br><span class="line">  </span><br><span class="line">  enc1 = <span class="number">0</span>;</span><br><span class="line">  local_48 = <span class="number">0</span>;</span><br><span class="line">  local_40 = <span class="number">0</span>;</span><br><span class="line">  local_38 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i = i + <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j = j + <span class="number">1</span>) &#123;</span><br><span class="line">                      <span class="comment">/* 重置local_24 */</span></span><br><span class="line">      sum = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; <span class="number">5</span>; k = k + <span class="number">1</span>) &#123;</span><br><span class="line">                      <span class="comment">/* local_24 += fakekey[k+i*5]*a1[j+k*5] */</span></span><br><span class="line">         sum = (uint)*(byte *)(k + i * <span class="number">5</span> + <span class="number">0x7c000</span>) * (uint)*(byte *)(j + k * <span class="number">5</span> + param_1) + sum;</span><br><span class="line">      &#125;</span><br><span class="line">                      <span class="comment">/* local_50[j+i*5] = local_24 % 0x101 */</span></span><br><span class="line">      *(<span class="type">char</span> *)((<span class="type">long</span>)&amp;enc1 + j + i * <span class="number">5</span>) = (<span class="type">char</span>)(sum % <span class="number">0x101</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  FUN_000241f8(param_1,&amp;enc1,<span class="number">25</span>);</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -182,8 +481,8 @@ Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实�
 
 <h1 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h1><p>写脚本时间~</p>
 <p>从FUN_00023c82得知要比较的是,因此先进行base魔改解密,注意解密细节(异或时不要异或掉填充符),得到dec1</p>
-<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/3.png"></p>
-<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/4.png"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/3.png" loading="lazy"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/4.png" loading="lazy"></p>
 <h3 id="爆破矩阵"><a href="#爆破矩阵" class="headerlink" title="爆破矩阵"></a>爆破矩阵</h3><p>这次时间主要花在了解矩阵这里 இ௰இ 我只想到了线代的基本矩阵乘法,但是结果是被模除过的,所以只知道余数不知道商,这种情况不能简单的key求逆再乘以dec1,z3也跑不出来,这时候就只有想到爆破了</p>
 <p>根据矩阵乘法原理,每次爆破input的一列,但是时间有一点久,一列就是$(126-32)^4$, 那就猜一下,前面五个就是<code>flag&#123;</code>,最后是<code>&#125;</code> ,这也少了一个数量级了</p>
 <p>然后没有写完整的脚本,在基础脚本里面改j的值和a的值就好了</p>
@@ -229,122 +528,214 @@ Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实�
 </tbody></table>
 <p>flag{for_the_1ich_king!!}</p>
 <h1 id="一些备忘"><a href="#一些备忘" class="headerlink" title="一些备忘"></a>一些备忘</h1><p>input: 1234567891234567891234567</p>
-<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/5.png" alt="input 0x40007ffd80"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/5.png" alt="input 0x40007ffd80" loading="lazy"></p>
 <p>input 0x40007ffd80</p>
-<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/6.png" alt="enc1 0x40007ffd30"></p>
+<p><img src="/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/6.png" alt="enc1 0x40007ffd30" loading="lazy"></p>
 <p>enc1 0x40007ffd30</p>
 <p>FUN_000241f8需要注意:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">uVar4(a0)</span><br><span class="line">	uVar4 = -(long)input &amp; 7;</span><br><span class="line">	<span class="keyword">if</span> (uVar4 != 0)</span><br><span class="line">uVar3(s1)</span><br></pre></td></tr></table></figure>
 
 <p>FUN_0002428c</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">value(a2)</span><br><span class="line">	switch(value &amp; 7)</span><br><span class="line">	更新</span><br></pre></td></tr></table></figure>
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-                <ul id="audio-list" style="display:none">
-                    
-                        
-                            <li title="0" data-url="http://link.hhtjim.com/163/425570952.mp3"></li>
-                        
-                    
-                        
-                            <li title="1" data-url="http://link.hhtjim.com/163/425570952.mp3"></li>
-                        
-                    
-                </ul>
-            
-        </div>
-        
-        
-    <div id="gitalk-container" class="comment link"
-		data-enable="false"
-        data-ae="false"
-        data-ci=""
-        data-cs=""
-        data-r=""
-        data-o=""
-        data-a=""
-        data-d="false"
-    >查看评论</div>
-
-
+</article>
+    
+    
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
     </div>
+    
+    
+        <div class="col-lg-6">
+            <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+    <a href="/2022/09/18/Hello-World-0/" class="trm-cover-frame trm-anima-link">
+        
+        
+            <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+        
+    </a>
+    <div class="trm-card-descr">
+        <div class="trm-label trm-category trm-mb-20">
+            <a href=" #.">
+                Unclassified
+            </a>
+        </div>
+        <h5>
+            <a href="/2022/09/18/Hello-World-0/" class="trm-anima-link">
+                Hello World!
+            </a>
+        </h5>
+        <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+        <ul class="trm-card-data trm-label">
+            <li>22/09/18</li>
+            <li>22:53</li>
+            
+            
+        </ul>
+    </div>
+</div>
+        </div>
     
 </div>
 
-
-    </div>
-</div>
-</body>
+    
 
 
-<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/typed.js"></script>
-<script src="/js/diaspora.js"></script>
 
+                    <div class="trm-divider footer-divider"></div>
 
-<link rel="stylesheet" href="/photoswipe/photoswipe.css">
-<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
 
+    
 
-<script src="/photoswipe/photoswipe.min.js"></script>
-<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+    
 
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
+    
+        <div class="trm-footer-item">
+            <span>
+                Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> v6.3.0
+            </span>
+            <span class="footer-separator" data-separator=" | "></span>
+            <span> 
+                Theme - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v0.0.0
+            </span>
         </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
+      
+
+    
+        <div class="trm-footer-item">
+            The blog has been lovely to run <span id="since" class="trm-accent-color"></span> day
+        </div>
+     
+
+    
+        <div class="trm-footer-item">
+            hahahahahaharik
+        </div>
+     
+</footer>
+
+<script>
+    function show_date_time () {
+        BirthDay = new Date("01/11/2023 1:11:00");
+        today = new Date();
+        timeold = (today.getTime() - BirthDay.getTime());
+        msPerDay = 24 * 60 * 60 * 1000
+        day = Math.floor(timeold / msPerDay)
+        since.innerHTML = day
+    }
+    show_date_time()
+</script>
+ 
+                    <!-- footer end -->
+
                 </div>
             </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
         </div>
     </div>
 </div>
+            <!-- body end -->
+
+            <!-- body -->
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="Toggle between single-column and double-column" onclick="document.body.classList.toggle('trm-single-column')">
+            <i class="iconfont fas fa-arrows-alt-h"></i>
+        </div>
+    
+</div>
+            <!-- body end -->
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  <div id="trm-back-top" class="trm-back-top" data-title="Back To Top">
+    <i class="iconfont fas fa-arrow-up"></i>
+</div>
+  
+<div class="trm-search-popup">
+    <div class="trm-search-header">
+        <span class="trm-search-popup-btn-close">
+            <i class="iconfont fas fa-times"></i>
+        </span>
+    </div>
+    <div class="form trm-search-form">
+        <input class="trm-search-input" type="text" placeholder="Searching...">
+    </div>
+    <div class="trm-search-result-container">
+
+    </div>
+</div>
+
+  <!-- Plugin -->
+
+
+
+    
+    
+
+    
+<script src="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+
+    <!-- 评论插件 -->
+    
+        
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
 
 
 
 
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
 
+
+<script id="async-script" src="/js/main.js?v=0.0.0"></script>
+
+</body>
 
 </html>
