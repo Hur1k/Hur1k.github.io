@@ -7,34 +7,34 @@
 <meta name="full-screen" content="yes">
 <meta name="theme-color" content="#317EFB" />
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
-<meta name="description" content="第一篇WP (╹ڡ╹ ) 从决赛到现在大概是2周的时间,终于算是做完了😭 Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了 虽然花的时间比较久,但总的来说收获还是挺大的,以前一直依赖着贵妇头的动调工具,很少用到只有反汇编没有反编译的工具如gdb(gdb都不会用!该打!),另外也练习了一下矩阵类的题目,相关库(numpy,sympy)">
+<meta name="description" content="第一篇WP (╹ڡ╹ ) 从决赛到现在大概是2周的时间,终于算是做完了😭 Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了 虽然花的时间比较久,但总的来说收获还是挺大的,以前一直依赖着贵妇头的动调工具,很少用到只有反汇编没有反编译的工具如gdb(gdb都不会用!该打!),另外也练习了一下矩阵类的题目,相关库(numpy,symp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XSCTF决赛-防AK-writeup">
-<meta property="og:url" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/index.html">
+<meta property="og:title" content="(施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧">
+<meta property="og:url" content="https://hur1k.github.io/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/index.html">
 <meta property="og:site_name" content="(施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧">
-<meta property="og:description" content="第一篇WP (╹ڡ╹ ) 从决赛到现在大概是2周的时间,终于算是做完了😭 Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了 虽然花的时间比较久,但总的来说收获还是挺大的,以前一直依赖着贵妇头的动调工具,很少用到只有反汇编没有反编译的工具如gdb(gdb都不会用!该打!),另外也练习了一下矩阵类的题目,相关库(numpy,sympy)">
+<meta property="og:description" content="第一篇WP (╹ڡ╹ ) 从决赛到现在大概是2周的时间,终于算是做完了😭 Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了 虽然花的时间比较久,但总的来说收获还是挺大的,以前一直依赖着贵妇头的动调工具,很少用到只有反汇编没有反编译的工具如gdb(gdb都不会用!该打!),另外也练习了一下矩阵类的题目,相关库(numpy,symp">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png">
-<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/2.png">
-<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/3.png">
-<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/4.png">
-<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/5.png">
-<meta property="og:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/6.png">
-<meta property="article:published_time" content="2022-11-18T16:47:44.000Z">
-<meta property="article:modified_time" content="2022-11-27T11:56:31.780Z">
+<meta property="og:image" content="https://hur1k.github.io/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png">
+<meta property="og:image" content="https://hur1k.github.io/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/2.png">
+<meta property="og:image" content="https://hur1k.github.io/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/3.png">
+<meta property="og:image" content="https://hur1k.github.io/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/4.png">
+<meta property="og:image" content="https://hur1k.github.io/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/5.png">
+<meta property="og:image" content="https://hur1k.github.io/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/6.png">
+<meta property="article:published_time" content="2022-11-18T16:47:44.392Z">
+<meta property="article:modified_time" content="2023-01-11T08:30:19.640Z">
 <meta property="article:author" content="Hur1k">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png">
+<meta name="twitter:image" content="https://hur1k.github.io/2022/11/19/XSCTF%E5%86%B3%E8%B5%9B-%E9%98%B2AK-writeup/1.png">
 
 
-<title >XSCTF决赛-防AK-writeup</title>
+<title >(施工中...闲人免进...)Hur1k的小小窝( •̀ ω •́ )✧</title>
 
 <!-- Favicon -->
 
-    <link href='/img/favicon.svg?v=0.0.0' rel='icon' type='image/png' sizes='16x16' ></link>
+    <link href='/img/favicon.svg?v=1.2.14' rel='icon' type='image/png' sizes='16x16' ></link>
 
 
-    <link href='/img/favicon.svg?v=0.0.0' rel='icon' type='image/png' sizes='32x32' ></link>
+    <link href='/img/favicon.svg?v=1.2.14' rel='icon' type='image/png' sizes='32x32' ></link>
 
 
 
@@ -69,10 +69,10 @@
 
 
 <!-- Variable -->
-<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Hur1k","root":"/","typed_text":"hahahahhahahahaharik","favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"404 Error"},"theme_version":"0.0.0","theme":{"switch":true,"default":"style-light"},"search":{"enable":true,"type":"engine","href":"https://www.google.com/search?q=site:","domain":null},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_button":"Copy","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode"},"creative_commons":{"license":"by-nc-sa","language":"deed.zh","post":false,"clipboard":false},"swup":false,"plugin":{"flickr_justified_gallery":{"js":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"fancybox":{"css":"https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css","js":"https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"}},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"fas fa-yin-yang","user":"fas fa-user-secret","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h"}};</script>
+<script>window.ASYNC_CONFIG = {"hostname":"hur1k.github.io","author":"Hur1k","root":"/","typed_text":"hahahahhahahahaharik","favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦!","hideText":"404 Error"},"theme_version":"1.2.14","theme":{"switch":true,"default":"auto"},"search":{"enable":true,"type":"engine","href":"https://www.google.com/search?q=site:","domain":null},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_button":"Copy","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode"},"creative_commons":{"license":"by-nc-sa","language":"deed.zh","post":false,"clipboard":false},"swup":false,"plugin":{"flickr_justified_gallery":{"js":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"fancybox":{"css":"https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css","js":"https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"}},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"fas fa-yin-yang","user":"fas fa-user-secret","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h"}};</script>
 
 <!-- Theme mode css -->
-<link data-swup-theme rel="stylesheet" href="/css/index.css?v=0.0.0" id="trm-switch-style">
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=1.2.14" id="trm-switch-style">
 <script>
     let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
     let catchMode = localStorage.getItem('theme-mode') || defaultMode;
@@ -169,6 +169,13 @@
 						</li>
 						
 						<li class="menu-item-has-children ">
+							<a  href="/categories/" target="">
+								menu.categories
+							</a>
+							
+						</li>
+						
+						<li class="menu-item-has-children ">
 							<a  href="/about/" target="">
 								About
 							</a>
@@ -176,8 +183,8 @@
 						</li>
 						
 						<li class="menu-item-has-children ">
-							<a  href="/link/" target="">
-								menu.link
+							<a  href="/links/" target="">
+								Links
 							</a>
 							
 						</li>
@@ -244,7 +251,7 @@
                             NEWS LETTER
                         </div>
                         <h1 class="trm-mb-30 trm-hsmb-font">
-                            XSCTF决赛-防AK-writeup
+                            
                         </h1>
 
                         
@@ -311,14 +318,6 @@
 <!-- sidebar social -->
 <div class="trm-divider trm-mb-40 trm-mt-40"></div>
 
-<div class="trm-social">
-    
-        <a href="https://github.com" title="Github" rel="nofollow" target="_blank">
-            <i class="iconfont fab fa-github"></i>
-        </a>
-    
-</div>
-
 <!-- sidebar social end -->
 
 <!-- info -->
@@ -327,10 +326,10 @@
     
         <li>
             <div class="trm-label">
-                Residence:
+                O:
             </div>
             <div class="trm-label trm-label-light">
-                Mars
+                Rev小菜鸡
             </div>
         </li>
     
@@ -375,7 +374,9 @@
 </div>
 <div class="trm-card ">
     <article id="article-container" class="trm-publication">
-    <p>第一篇WP (╹ڡ╹ )</p>
+    <hr>
+<hr>
+<p>第一篇WP (╹ڡ╹ )</p>
 <p>从决赛到现在大概是2周的时间,终于算是做完了😭</p>
 <p>Ghidra竟然能打开!!虽然反编译层也是有点难,做完后发现其实加密操作不算难,只是架构问题把很多操作都复杂化了</p>
 <p>虽然花的时间比较久,但总的来说收获还是挺大的,以前一直依赖着贵妇头的动调工具,很少用到只有反汇编没有反编译的工具如gdb(gdb都不会用!该打!),另外也练习了一下矩阵类的题目,相关库(numpy,sympy)的使用,继续加油~</p>
@@ -552,30 +553,20 @@
     
     
         <div class="col-lg-6">
-            <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-    <a href="/2022/09/18/Hello-World-0/" class="trm-cover-frame trm-anima-link">
+            <div class="trm-older-publications-card trm-scroll-animation trm-active-el" data-scroll="" data-scroll-offset="40">
+    <div class="trm-older-publication">
         
-        
-            <img alt="cover" class="no-fancybox" src="/img/block.jpg">
-        
-    </a>
-    <div class="trm-card-descr">
-        <div class="trm-label trm-category trm-mb-20">
-            <a href=" #.">
-                Unclassified
-            </a>
-        </div>
-        <h5>
-            <a href="/2022/09/18/Hello-World-0/" class="trm-anima-link">
-                Hello World!
-            </a>
-        </h5>
-        <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+        <a class="trm-op-top trm-anima-link" href="/2022/11/19/HWSwinter-writeup/">
+            <span class="trm-op-cover">
+                <img alt="cover" class="no-fancybox" src="/???">
+            </span>
+            <h6 class="trm-op-title">HWSwinter-writeup</h6>
+        </a>
+        <div class="trm-divider trm-mb-15 trm-mt-20"></div>
         <ul class="trm-card-data trm-label">
-            <li>22/09/18</li>
-            <li>22:53</li>
-            
-            
+            <li>22/11/19</li>
+            <li>00:47</li>
+            <li>Writeup</li>
         </ul>
     </div>
 </div>
@@ -605,7 +596,7 @@
             <span> 
                 Theme - 
                 <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
-                v0.0.0
+                v1.2.14
             </span>
         </div>
       
@@ -734,7 +725,7 @@
     
 
 
-<script id="async-script" src="/js/main.js?v=0.0.0"></script>
+<script id="async-script" src="/js/main.js?v=1.2.14"></script>
 
 </body>
 

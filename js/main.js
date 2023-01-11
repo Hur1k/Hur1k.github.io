@@ -49,11 +49,20 @@
             scriptBlock.push(item.innerText)
         })
 
-        Promise.all(scriptCDN.map(item => this.loadScript(item))).then(_ => {
-          scriptBlock.forEach(code => {
-            this.runScriptBlock(code)
-          })
-        })
+        const run = async (cdns, blocks) => {
+          try {
+            for (var i = 0; i < cdns.length; i++) {
+              await this.loadScript(cdns[i]);
+            }
+            blocks.forEach(code => {
+              this.runScriptBlock(code)
+            })
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        
+        run(scriptCDN, scriptBlock)
       }
     };
 
@@ -687,7 +696,6 @@
         const div = document.createElement("div");
         div.className = 'code-btn'
         const span = document.createElement('span')
-        // lang = div.parentNode.getAttribute('class')
         span.innerText = i18n.copy_button
         span.addEventListener('click', function (e) {
           try {
