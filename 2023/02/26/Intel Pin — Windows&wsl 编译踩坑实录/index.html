@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="这几天搞这个编译问题人都快要炸裂了，属实不容易，看到编译就怕😟就当是积累一些编译问题的处理经验吧 先简单说说最后的解决方法：问题出现在3.26版本的pin，dll死活编译不出来，最后换个版本，用vs2019的工作夹解决问题 踩坑1-mingw32-make报错版本信息3.26-windows，mingw32-make的时候报错 上网搜cut是linux的命令，最初编译so和o文件的时候没有问题，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Intel Pin — Windows&amp;wsl 编译踩坑实录">
+<meta property="og:url" content="https://hur1k.github.io/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/index.html">
+<meta property="og:site_name" content="Hur1k的小站 (╹ڡ╹ )">
+<meta property="og:description" content="这几天搞这个编译问题人都快要炸裂了，属实不容易，看到编译就怕😟就当是积累一些编译问题的处理经验吧 先简单说说最后的解决方法：问题出现在3.26版本的pin，dll死活编译不出来，最后换个版本，用vs2019的工作夹解决问题 踩坑1-mingw32-make报错版本信息3.26-windows，mingw32-make的时候报错 上网搜cut是linux的命令，最初编译so和o文件的时候没有问题，">
+<meta property="og:locale">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="article:published_time" content="2023-02-26T03:34:49.359Z">
+<meta property="article:modified_time" content="2023-02-26T03:34:49.379Z">
+<meta property="article:author" content="Hur1k">
+<meta property="article:tag" content="pin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hur1k.github.io/img/404.jpg">
+
+    <meta name="keywords" content="Hur1k">
+
+
+<title >Intel Pin — Windows&wsl 编译踩坑实录</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.0.0' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.0.0' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"hur1k.github.io","author":"Hur1k","root":"/","typed_text":"hahahahhahahahaharik","theme_version":"2.0.0","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)","hideText":"404 Error"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"fas fa-yin-yang","user":"fas fa-user-secret","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"mac","height_limit":300},"notice_outdate":{"enable":true,"style":"simple","limit_day":365,"position":"top","limit_dat":2}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-02-26 11:34:49"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.0" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    首页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/categories/CTF" target="">
+                            CTF
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%85%B6%E4%BB%96" target="">
+                            其他
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+        <a id="trm-search-btn" class="trm-search-btn" data-no-swup target="_blank" href="https://www.google.com/search?q=site:null">
+            <i class="iconfont fas fa-search"></i>
+        </a>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            Intel Pin — Windows&wsl 编译踩坑实录
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2023
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <i class="iconfont fas fa-user-alt"></i>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <i class="iconfont fas fa-th-list"></i>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Hur1k
+    </h5>
+    
+</div>
+<!-- card header end -->
+                <!-- sidebar social -->
+
+<!-- sidebar social end -->
+                <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                O:
+            </div>
+            <div class="trm-label trm-label-light">
+                Rev小菜鸡
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+                
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#踩坑1-mingw32-make报错"  data-scroll-to="#踩坑1-mingw32-make报错"><span class="toc-text">踩坑1-mingw32-make报错</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#踩坑2-linux-wsl无法运行32位"  data-scroll-to="#踩坑2-linux-wsl无法运行32位"><span class="toc-text">踩坑2-linux-wsl无法运行32位</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#WSL无法运行32位程序"  data-scroll-to="#WSL无法运行32位程序"><span class="toc-text">WSL无法运行32位程序</span></a></li></ol></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#踩坑3-cl命令找不到-link命令出现问题"  data-scroll-to="#踩坑3-cl命令找不到-link命令出现问题"><span class="toc-text">踩坑3-cl命令找不到-link命令出现问题</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#官档说明"  data-scroll-to="#官档说明"><span class="toc-text">官档说明</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#踩坑4-vs2019无法解析的外部指令"  data-scroll-to="#踩坑4-vs2019无法解析的外部指令"><span class="toc-text">踩坑4-vs2019无法解析的外部指令</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#避坑-换版本"  data-scroll-to="#避坑-换版本"><span class="toc-text">避坑-换版本</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#总结"  data-scroll-to="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#References"  data-scroll-to="#References"><span class="toc-text">References</span></a></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            02/26
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont fas fa-yin-yang trm-icon"></i><br>
+            11:34
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont fas fa-user-secret trm-icon"></i><br>
+            Hur1k
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <p>这几天搞这个编译问题人都快要炸裂了，属实不容易，看到编译就怕😟就当是积累一些编译问题的处理经验吧</p>
+<p>先简单说说最后的解决方法：问题出现在3.26版本的pin，dll死活编译不出来，最后换个版本，用vs2019的工作夹解决问题</p>
+<h1 id="踩坑1-mingw32-make报错"><a href="#踩坑1-mingw32-make报错" class="headerlink" title="踩坑1-mingw32-make报错"></a>踩坑1-mingw32-make报错</h1><p>版本信息3.26-windows，mingw32-make的时候报错</p>
+<p>上网搜cut是linux的命令，最初编译so和o文件的时候没有问题，主要问题出在dll，想起来mingw有个make试试能不能解决</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PS \pin\pin-3.26-98690-g1fc9d60e6-msvc-windows\<span class="built_in">source</span>\tools\Insmix&gt; mingw32-make.exe</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"><span class="built_in">mkdir</span> -p obj-intel64/</span><br><span class="line">命令语法不正确。</span><br><span class="line">mingw32-make: *** [../../../source/tools/Config/makefile.default.rules:50: obj-intel64/] Error 1</span><br></pre></td></tr></table></figure>
+
+<h1 id="踩坑2-linux-wsl无法运行32位"><a href="#踩坑2-linux-wsl无法运行32位" class="headerlink" title="踩坑2-linux-wsl无法运行32位"></a>踩坑2-linux-wsl无法运行32位</h1><blockquote>
+<p>但是尝试用wsl编译so和o也出现了点问题，记录一下，最后的解决方法是在VM虚拟机里使用</p>
+</blockquote>
+<p>可以make，但是里面的pin是32位。。。。运行不了</p>
+<aside>
+⚠️ bash: ./pin: cannot execute binary file: Exec format error
+
+</aside>
+
+<p>尝试sudo运行</p>
+<aside>
+⚠️ ./pin: 1: Syntax error: "(" unexpected
+
+</aside>
+
+<p>看到文件夹中有个intel64，里面也有pin，尝试运行，提示缺乏链接库</p>
+<aside>
+⚠️ [libxed.so](http://libxed.so/): cannot open shared object file: No such file or directory
+
+</aside>
+
+<p>但是找不到这个库，估计是工具内的</p>
+<h2 id="WSL无法运行32位程序"><a href="#WSL无法运行32位程序" class="headerlink" title="WSL无法运行32位程序"></a>WSL无法运行32位程序</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/TatuCz/p/10330820.html">Bash On Windows(WSL)无法运行32Bit程序，报错cannot execute binary file: Exec format error解决办法</a></p>
+<p>如链接中的指示,尝试交给qemu来执行这里的32位, 也可以用<code>qemu-i386-static ./pin</code> 来运行,很可惜又报错了</p>
+<aside>
+⚠️ ./pin
+qemu-i386-static: Unable to reserve 0xfffff000 bytes of virtual address space at 0x41c83000 (Operation not supported) for use as guest address space (check yourvirtual memory ulimit setting, min_mmap_addr or reserve less using -R option)
+
+</aside>
+
+<p>不想管了（；´д｀）ゞ</p>
+<h1 id="踩坑3-cl命令找不到-link命令出现问题"><a href="#踩坑3-cl命令找不到-link命令出现问题" class="headerlink" title="踩坑3-cl命令找不到-link命令出现问题"></a>踩坑3-cl命令找不到-link命令出现问题</h1><p>后面发现在windows上使用make要提前安装cygwin make（其实文档上有写）, 简单介绍就是可原生运行于Windows系统上的POSIX兼容环境，看图就明白了，是不是和linux上很像😀</p>
+<p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%201.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>在编译另一个tools时出现的问题，安装好cygwin后要给cygwin的bin配置一下环境变量，重新make报错</p>
+<aside>
+⚠️ make obj-intel64/MyPinTool.dll
+cl /EHs- /EHa- /wd4530 /DTARGET_WINDOWS /nologo /Gy  /Oi- /GR- /GS- /DPIN_CRT=1 /D_WINDOWS_H_PATH_="" /D__LP64__ /DTARGET_IA32E /DHOST_IA32E /I../../../source/include/pin /I../../../source/include/pin/gen -I../../../extras/stlport/include -I../../../extras -I../../../extras/libstdc++/include -I../../../extras/crt/include -I../../../extras/crt -I../../../extras/crt/include/arch-x86_64 -I../../../extras/crt/include/kernel/uapi -I../../../extras/crt/include/kernel/uapi/asm-x86 /FIinclude/msvc_compat.h /I../../../extras/components/include /I../../../extras/xed-intel64/include/xed /I../../../source/tools/Utils /I../../../source/tools/InstLib /MD /O2  /c /Foobj-intel64/MyPinTool.obj MyPinTool.cpp
+/bin/sh: cl: command not found
+make: *** [../../../source/tools/Config/makefile.default.rules:233: obj-intel64/MyPinTool.obj] Error 127
+
+</aside>
+
+<p>没有cl.exe的话就找，这是一个Microsoft C&#x2F;C++ 编译器，如果有VS的话应该都有，添加到环境变量重新make</p>
+<aside>
+⚠️ make obj-intel64/MyPinTool.dll
+cl /EHs- /EHa- /wd4530 /DTARGET_WINDOWS /nologo /Gy  /Oi- /GR- /GS- /DPIN_CRT=1 /D_WINDOWS_H_PATH_="" /D__LP64__ /DTARGET_IA32E /DHOST_IA32E /I../../../source/include/pin /I../../../source/include/pin/gen -I../../../extras/stlport/include -I../../../extras -I../../../extras/libstdc++/include -I../../../extras/crt/inclutras/crt/include/kernel/uapi -I../../../extras/crt/include/kernel/uapi/asm-x86 /FIinclude/msvc_compat.h /I../../../extras/components/include /I../../../extras/xed-intel64/include/xed /I../../../source/tools/Utils /I../../../source/tools/InstLib /MD /O2  /c /Foobj-intel64/MyPinTool.obj MyPinTool.cpp
+MyPinTool.cpp
+../../../source/include/pin/gen\pinsync.hpp(105): warning C5208: typedef 名称中 使用的未命名的类不能声明非静态数据成员、成员枚举或成员类以外的成员
+../../../source/include/pin/gen\pinsync.hpp(238): warning C5208: typedef 名称中 使用的未命名的类不能声明非静态数据成员、成员枚举或成员类以外的成员
+../../../source/include/pin/gen\pinsync.hpp(842): warning C5208: typedef 名称中 使用的未命名的类不能声明非静态数据成员、成员枚举或成员类以外的成员
+link /DLL /EXPORT:main /NODEFAULTLIB /NOLOGO /INCREMENTAL:NO /IGNORE:4210 /IGNORE:4049 /DYNAMICBASE /NXCOMPAT ../../../intel64/runtime/pincrt/crtbeginS.obj /MACHINE:x64 /ENTRY:Ptrace_DllMainCRTStartup /BASE:0xC5000000 /OPT:REF  /out:obj-intel64/MyPinTool.dll obj-intel64/MyPinTool.obj /LIBPATH:../../../intel64/lib /LIBPATH:../../../intel64/lib-ext /LIBPATH:../../../intel64/runtime/pincrt /LIBPATH:../../../extras/xed-intel64/lib pin.lib xed.lib pinipc.lib pincrt.lib kernel32.lib
+link: extra operand '/NODEFAULTLIB'
+Try 'link --help' for more information.
+make: *** [../../../source/tools/Config/makefile.default.rules:241: obj-intel64/MyPinTool.dll] Error 1
+
+</aside>
+
+<p>link.exe又出错了，就很烦</p>
+<h1 id="官档说明"><a href="#官档说明" class="headerlink" title="官档说明"></a>官档说明</h1><p>最后还是选择慢慢看文档，官档+chatgpt的更详细解释</p>
+<aside>
+💡 当你想要在Windows上编译Pintools时，你需要注意以下事项：
+
+<ol>
+<li>由于Pintools使用make来构建，因此请确保首先安装了Cygwin make。</li>
+<li>打开与你的目标架构（x86或x64）对应的Visual Studio命令提示符，并按照Building the Example Tools部分中的步骤进行操作。</li>
+</ol>
+<p>具体来说，你需要按照以下步骤进行操作：</p>
+<ol>
+<li>下载并安装Cygwin，包括make工具。</li>
+<li>安装Visual Studio（建议使用最新版本），并安装Windows SDK（如果尚未安装）。</li>
+<li>打开与你的目标架构对应的Visual Studio命令提示符，例如在64位Windows上，你需要打开“x64 Native Tools Command Prompt for VS2017”或类似的命令提示符。</li>
+<li>在命令提示符中，导航到你的Pintools源代码目录。</li>
+<li>运行“premake5 vs2017”（或与你的Visual Studio版本对应的命令），以生成Visual Studio项目文件。</li>
+<li>使用Visual Studio打开生成的.sln文件。</li>
+<li>编译和构建你的Pintools项目。如果一切顺利，你将得到一个可以在Pin工具中使用的Pintool。</li>
+</ol>
+<p>总之，你需要在Windows上安装必要的工具，并在Visual Studio命令提示符中使用make和premake5工具来构建Pintools</p>
+</aside>
+
+<p>重新尝试make</p>
+<aside>
+⚠️ make all TARGET=intel64
+
+<p>…省略前面内容<br>inscount0.cpp<br>inscount0.cpp(1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢 失<br>inscount0.cpp(34): error C2601: “Fini”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个“{”没有匹配项<br>inscount0.cpp(46): error C2601: “Usage”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个“{”没有匹配项<br>inscount0.cpp(59): error C2601: “main”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个“{”没有匹配项<br>inscount0.cpp(26): fatal error C1075: “{”: 未找到匹配令牌<br>make[1]: *** [..&#x2F;..&#x2F;..&#x2F;source&#x2F;tools&#x2F;Config&#x2F;makefile.default.rules:233: obj-intel64&#x2F;inscount0.obj] Error 2<br>make[1]: Leaving directory<br>make: *** [..&#x2F;Config&#x2F;makefile.config:377: all] Error 2</p>
+</aside>
+
+<p>出现这个错误回显是我在学习pin的时候在cpp里加了些中文注释，删掉重新make，终终于于全部通过了qwq，除了会报一个小waring</p>
+<aside>
+⚠️ LINK : warning LNK4281:x64 映像的基址 0xC5000000 不适当；将基址设为 4 GB 以上以实现最佳 ASLR 优化
+
+</aside>
+
+<p>然鹅，尽管是通过了但是实际还是使用不了</p>
+<aside>
+⚠️ E: [tid:30696] Failure to map DLL E:\CTF\Practice\frida-hook\inscount0.dll
+E:       System error 216 :
+
+</aside>
+
+<h1 id="踩坑4-vs2019无法解析的外部指令"><a href="#踩坑4-vs2019无法解析的外部指令" class="headerlink" title="踩坑4-vs2019无法解析的外部指令"></a>踩坑4-vs2019无法解析的外部指令</h1><p>看到另一种编译方法就是用文件给的工作空间进行编译</p>
+<p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%202.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>打开后把要编译的工具移入项目编译就行，但是这里还是报错了</p>
+<p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%203.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h1 id="避坑-换版本"><a href="#避坑-换版本" class="headerlink" title="避坑-换版本"></a>避坑-换版本</h1><p>当时也不知道咋想的，突然想换个版本测试一下，结果就成功了😅附带几张成功的截图吧，这里可以看到dll文件以及编译出来了</p>
+<p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%204.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>下面都是些warning，没报错就行qwq</p>
+<p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%205.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>测试一下</p>
+<p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>pin的编译方法大概有下面这几种：</p>
+<ol>
+<li>通过MyPinTool文件夹下的工作空间MyPinTool.vcxproj，在vs内进行编译</li>
+<li>根据<a target="_blank" rel="noopener" href="https://software.intel.com/sites/landingpage/pintool/docs/98690/Pin/doc/html/index.html#WindowsNotes">官档</a>使用cygwin make以及对应目标架构(x86或x64)的Visual Studio命令提示符进行编译</li>
+<li>换版本😁</li>
+</ol>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a target="_blank" rel="noopener" href="https://software.intel.com/sites/landingpage/pintool/docs/98690/Pin/doc/html/index.html#WindowsNotes">Pin 3.26 User Guide</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cygwin.com/">cygwin</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-267179.htm">Tenet 技术路线</a> （没错，这里也有一些编译问题处理的指导）</p>
+
+</article>
+    
+    
+
+<ul class="trm-post-copyright">
+    <li class="trm-post-copyright-author">
+        <strong>本文作者：</strong>
+        Hur1k
+    </li>
+    <li class="trm-post-copyright-link">
+        <strong>本文链接：</strong>
+        <a id="original-link" href="https://hur1k.github.io/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/" title="Intel Pin — Windows&wsl 编译踩坑实录">https://hur1k.github.io/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/</a>
+    </li>
+    <li class="trm-post-copyright-license">
+        <strong>版权声明：</strong>
+        本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 ">CC BY-NC-SA 4.0</a> 许可协议。
+    </li>
+</ul>
+
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el" data-scroll="" data-scroll-offset="40">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/2023/02/01/N1Junior-Writeup/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="/img/post_banner/N1Junior-Writeup.png">
+                </span>
+                <h6 class="trm-op-title">N1Junior-Writeup</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/02/01</li>
+                <li>11:38</li>
+                <li>CTF</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0
+            </span>
+            <span class="footer-separator" data-separator=" | "></span>
+            <span> 
+                主题 - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v2.0.0
+            </span>
+        </div>
+      
+
+    
+        <div class="trm-footer-item">
+            博客已萌萌哒运行 <span id="since" class="trm-accent-color"></span> 天
+        </div>
+     
+
+    
+        <div class="trm-footer-item">
+            hahahahahaharik
+        </div>
+     
+</footer>
+
+<script>
+    function show_date_time () {
+        var BirthDay = new Date("01/11/2023 1:11:00");
+        var today = new Date();
+        var timeold = (today.getTime() - BirthDay.getTime());
+        var msPerDay = 24 * 60 * 60 * 1000
+        var day = Math.floor(timeold / msPerDay)
+        since.innerHTML = day
+    }
+    show_date_time()
+</script>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="阅读模式" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="单栏和双栏切换" onclick="asyncFun.switchSingleColumn()">
+            <i class="iconfont fas fa-arrows-alt-h"></i>
+        </div>
+    
+</div>
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  <div id="trm-back-top" class="trm-back-top" data-title="回到顶部">
+    <i class="iconfont fas fa-arrow-up"></i>
+</div>
+  
+<div class="trm-search-popup">
+    <div class="trm-search-header">
+        <span class="trm-search-popup-btn-close">
+            <i class="iconfont fas fa-times"></i>
+        </span>
+    </div>
+    <div class="form trm-search-form">
+        <input class="trm-search-input" type="text" placeholder="搜索...">
+    </div>
+    <div class="trm-search-result-container">
+
+    </div>
+</div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.0.0"></script>
+
+</body>
+
+</html>
