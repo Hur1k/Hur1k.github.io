@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="最近看了一下西湖论剑的Re题，收获很大(*￣3￣)╭ ，能学到很多Re的技巧和 ( 在我看来 ) 不大常规的知识点, 同时发现自己离参加线下赛的路还很长 😭 还得继续努力了。CTF之路任重道远呀~ 本篇没有涉及太多关于题目中加解密逻辑的分析，更多的偏向Trick的具体实践和分析，完整WP还请参看其他大佬的blog~ 在此特别感谢 Lu1u师傅 云之君师傅 Sink师傅 的详细WP分享 BabyR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2022西湖论剑-Review">
+<meta property="og:url" content="https://hur1k.github.io/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/index.html">
+<meta property="og:site_name" content="Hur1k的小站 (╹ڡ╹ )">
+<meta property="og:description" content="最近看了一下西湖论剑的Re题，收获很大(*￣3￣)╭ ，能学到很多Re的技巧和 ( 在我看来 ) 不大常规的知识点, 同时发现自己离参加线下赛的路还很长 😭 还得继续努力了。CTF之路任重道远呀~ 本篇没有涉及太多关于题目中加解密逻辑的分析，更多的偏向Trick的具体实践和分析，完整WP还请参看其他大佬的blog~ 在此特别感谢 Lu1u师傅 云之君师傅 Sink师傅 的详细WP分享 BabyR">
+<meta property="og:locale">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
+<meta property="article:published_time" content="2023-04-02T04:04:10.098Z">
+<meta property="article:modified_time" content="2023-04-02T04:04:10.122Z">
+<meta property="article:author" content="Hur1k">
+<meta property="article:tag" content="Review">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hur1k.github.io/img/404.jpg">
+
+    <meta name="keywords" content="Hur1k">
+
+
+<title >2022西湖论剑-Review</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.0.0' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.0.0' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"hur1k.github.io","author":"Hur1k","root":"/","typed_text":"hahahahhahahahaharik","theme_version":"2.0.0","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)","hideText":"404 Error"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"fas fa-yin-yang","user":"fas fa-user-secret","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"mac","height_limit":300},"notice_outdate":{"enable":true,"style":"simple","limit_day":365,"position":"top","limit_dat":2}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-04-02 12:04:10"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.0" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    首页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+                <ul>
+                    
+                    <li>
+                        <a  href="/categories/CTF" target="">
+                            CTF
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a  href="/categories/%E5%85%B6%E4%BB%96" target="">
+                            其他
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/links/" target="">
+                    友链
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+        <a id="trm-search-btn" class="trm-search-btn" data-no-swup target="_blank" href="https://www.google.com/search?q=site:null">
+            <i class="iconfont fas fa-search"></i>
+        </a>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            2022西湖论剑-Review
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2023
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <i class="iconfont fas fa-user-alt"></i>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <i class="iconfont fas fa-th-list"></i>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        Hur1k
+    </h5>
+    
+</div>
+<!-- card header end -->
+                <!-- sidebar social -->
+
+<!-- sidebar social end -->
+                <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                O:
+            </div>
+            <div class="trm-label trm-label-light">
+                Rev小菜鸡
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+                
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#BabyRE"  data-scroll-to="#BabyRE"><span class="toc-text">BabyRE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#Core"  data-scroll-to="#Core"><span class="toc-text">Core</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#分析函数调用顺序"  data-scroll-to="#分析函数调用顺序"><span class="toc-text">分析函数调用顺序</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#加密逻辑"  data-scroll-to="#加密逻辑"><span class="toc-text">加密逻辑</span></a></li></ol></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Dual-personality"  data-scroll-to="#Dual-personality"><span class="toc-text">Dual-personality</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#关键逻辑"  data-scroll-to="#关键逻辑"><span class="toc-text">关键逻辑</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#处理方法"  data-scroll-to="#处理方法"><span class="toc-text">处理方法</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#继续分析"  data-scroll-to="#继续分析"><span class="toc-text">继续分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Berkeley"  data-scroll-to="#Berkeley"><span class="toc-text">Berkeley</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Guest"  data-scroll-to="#Guest"><span class="toc-text">Guest</span></a></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            04/02
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont fas fa-yin-yang trm-icon"></i><br>
+            12:04
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont fas fa-user-secret trm-icon"></i><br>
+            Hur1k
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <p>最近看了一下西湖论剑的Re题，收获很大(*￣3￣)╭ ，能学到很多Re的技巧和 ( 在我看来 ) 不大常规的知识点, 同时发现自己离参加线下赛的路还很长 😭 还得继续努力了。CTF之路任重道远呀~</p>
+<p>本篇没有涉及太多关于题目中加解密逻辑的分析，更多的偏向Trick的具体实践和分析，完整WP还请参看其他大佬的blog~</p>
+<p>在此特别感谢 <a target="_blank" rel="noopener" href="http://lu1u.bxsteam.tk/2023/02/03/2023XHLJ-RE/">Lu1u师傅</a> <a target="_blank" rel="noopener" href="https://www.yunzh1jun.com/2023/02/07/xhlj/">云之君师傅</a> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/gaoyucan/p/17087358.html">Sink师傅</a> 的详细WP分享</p>
+<h1 id="BabyRE"><a href="#BabyRE" class="headerlink" title="BabyRE"></a>BabyRE</h1><blockquote>
+<p>hook &amp; atexit</p>
+</blockquote>
+<h2 id="Core"><a href="#Core" class="headerlink" title="Core"></a>Core</h2><p><code>int atexit(void (*func)(void))</code></p>
+<ul>
+<li>func在程序终止时被调用的函数。</li>
+<li>如果函数成功注册，则该函数返回零，否则返回一个非零值。</li>
+<li>注册顺序和调用顺序相反</li>
+</ul>
+<h2 id="分析函数调用顺序"><a href="#分析函数调用顺序" class="headerlink" title="分析函数调用顺序"></a>分析函数调用顺序</h2><ol>
+<li><p>TLS_callback (4010F0) 创建&#x2F;终止进程的线程时会自动调用执行的函数（前后共调用两次）且其调用执行先于EP代码</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __stdcall <span class="title function_">TlsCallback_0</span><span class="params">(<span class="type">int</span> a1, <span class="type">int</span> a2, <span class="type">int</span> a3)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line"></span><br><span class="line">  __CheckForDebuggerJustMyCode(&amp;unk_4090A2);</span><br><span class="line">  data[<span class="number">0</span>] = <span class="number">0x102030</span>;</span><br><span class="line">  data[<span class="number">1</span>] = <span class="number">0x40506070</span>;</span><br><span class="line">  data[<span class="number">2</span>] = <span class="number">0x8090A0B0</span>;</span><br><span class="line">  result = <span class="number">4</span>;</span><br><span class="line">  data[<span class="number">3</span>] = <span class="number">0xC0D0E0F0</span>;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化（401000）</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">dynamic_initializer_for__NetworkIDGenerator::IDTree__</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  __CheckForDebuggerJustMyCode(&amp;unk_4090A2);</span><br><span class="line">  get_input(&amp;unk_4085C6);</span><br><span class="line">  <span class="keyword">return</span> atexit(<span class="built_in">std</span>::_Destroy_in_place&lt;<span class="type">char</span> *&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sub_401000 → get_input ( 401170 )</p>
+</li>
+<li><p>sub_401000 注册函数 sub_405770</p>
+</li>
+<li><p>sub_401050 , 函数和401000类似，随后进入sub_401230并注册sub_4057B0</p>
+</li>
+<li><p>sub_4010A0 , 函数和401050类似，随后进入sub_4012B0并注册sub_4057F0</p>
+</li>
+<li><p>sub_4010A0  → sub_4012B0，核心点在sub_4012B0，简单来说就是hook了<code>GetLastError()</code> ，下面贴上分析内容（小技巧：飞书的截图功能可以滚动截图哦，对于函数展示还是很好用的）</p>
+<p> <img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%201.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+</li>
+</ol>
+<p>至此，有关<code>atexit</code>的函数已经注册完毕，且在程序终止时的调用顺序为: sub_4057F0→ sub_4057B0 → sub_405770</p>
+<ol>
+<li><p>进入main函数（00402550）可以看到这里的GetLastError()，因为上面已经hook了，所以实际上调用的是sub_4010D0</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  __CheckForDebuggerJustMyCode(&amp;unk_4090A2);</span><br><span class="line">  GetLastError();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这时候主程序要<code>exit</code>了，因此就是sub_4057F0→ sub_4057B0 → sub_405770</p>
+</li>
+</ol>
+<h2 id="加密逻辑"><a href="#加密逻辑" class="headerlink" title="加密逻辑"></a>加密逻辑</h2><p><del>我是懒鬼</del> 参考其他师傅的blog(￣︶￣*)) </p>
+<h1 id="Dual-personality"><a href="#Dual-personality" class="headerlink" title="Dual-personality"></a>Dual-personality</h1><blockquote>
+<p>天堂之门参考：<a target="_blank" rel="noopener" href="https://taardisaa.github.io/2021/09/25/Heaven'sGate/">天堂之门技术</a></p>
+</blockquote>
+<p>简单来说就是将32位的程序切换到64位执行部分64位的代码。</p>
+<h2 id="关键逻辑"><a href="#关键逻辑" class="headerlink" title="关键逻辑"></a>关键逻辑</h2><p>sub_401120分析:</p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%202.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%203.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%204.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>注意这里显示的<code>jmp     far ptr loc_4014FE+2</code> <strong>并不是真实地址！</strong>最好通过capstone来分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> capstone <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">CS = Cs(CS_ARCH_X86, CS_MODE_32)</span><br><span class="line">a = CS.disasm(<span class="string">b&#x27;\xea\xd0\x11\x40\x00\x33\x00&#x27;</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;i.mnemonic&#125;</span> <span class="subst">&#123;i.op_str&#125;</span>&quot;</span>) <span class="comment">#ljmp 0x33:0x4011d0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="处理方法"><a href="#处理方法" class="headerlink" title="处理方法"></a>处理方法</h2><p>复制一份文件, 修改此处,用IDA64打开分析</p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%205.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>这里遇到一个别人没提到的坑，IDA64打开后发现地址奇奇怪怪的，这时候要<strong>重新对齐一下基地址</strong> Edit → Segments → Rebase Program → Value → 0x400000</p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%206.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h2 id="继续分析"><a href="#继续分析" class="headerlink" title="继续分析"></a>继续分析</h2><p>初始化了0x407058的值,再跳到前面开辟的新空间继续运行</p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%207.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%208.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>main继续执行，再次碰到天堂之门<code>call fword ptr off_40700C</code> 同样不可信，实际上指令是lcall [0x40700c]，此时的存值是dword_401200，换到ida64看</p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%209.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p>后面还有一次调用到core_func（0x401120），这里不赘述了</p>
+<p>后面的一些跳转感觉比较奇怪，主要是我确定不了什么时候回到32位了(例如下面这段看起来就很怪,调了半天发现是在64位执行的,但是这段过后看不到哪里有将cs复原回0x23执行0x4014C5以后的代码)不过两个文件结合起来分析就好了</p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%2010.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%2011.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<aside>
+💡 小技巧: 即使main函数夹杂着32位和64位的代码很乱, 可以分段创建函数,简化分析过程
+
+</aside>
+
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%2012.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+<h1 id="Berkeley"><a href="#Berkeley" class="headerlink" title="Berkeley"></a><strong>Berkeley</strong></h1><blockquote>
+<p>ebpf逆向</p>
+</blockquote>
+<p>单看Trick的话这个应该算是比较常规的，就不多说了，可以看别的师傅的blog</p>
+<h1 id="Guest"><a href="#Guest" class="headerlink" title="Guest"></a>Guest</h1><blockquote>
+<p>Intel VT</p>
+</blockquote>
+<p>常规的VT分析思路，源码改自 <a target="_blank" rel="noopener" href="https://github.com/zzhouhe/VT_Learn">https://github.com/zzhouhe/VT_Learn</a></p>
+<p>guest.exe此处触发异常, 调用对应的异常处理函数, 加密逻辑基本是rc4+魔改tea</p>
+<p>这题的加密逻辑分析还是挺多的,最好还是能动调起来(但是动调真的好麻烦阿🤡)</p>
+<p><img src="/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/Untitled%2013.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
+
+</article>
+    
+    
+
+<ul class="trm-post-copyright">
+    <li class="trm-post-copyright-author">
+        <strong>本文作者：</strong>
+        Hur1k
+    </li>
+    <li class="trm-post-copyright-link">
+        <strong>本文链接：</strong>
+        <a id="original-link" href="https://hur1k.github.io/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/" title="2022西湖论剑-Review">https://hur1k.github.io/2023/04/02/2022%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91-Review/</a>
+    </li>
+    <li class="trm-post-copyright-license">
+        <strong>版权声明：</strong>
+        本博客所有文章除特别声明外，均默认采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 ">CC BY-NC-SA 4.0</a> 许可协议。
+    </li>
+</ul>
+
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-older-publications-card trm-scroll-animation trm-active-el" data-scroll="" data-scroll-offset="40">
+        <div class="trm-older-publication">
+            
+            <a class="trm-op-top trm-anima-link" href="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/">
+                <span class="trm-op-cover">
+                    <img alt="cover" class="no-fancybox" src="/img/post_banner/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95.png">
+                </span>
+                <h6 class="trm-op-title">Intel Pin — Windows&amp;wsl 编译踩坑实录</h6>
+            </a>
+            <div class="trm-divider trm-mb-15 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/02/26</li>
+                <li>11:34</li>
+                <li>Re知识</li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0
+            </span>
+            <span class="footer-separator" data-separator=" | "></span>
+            <span> 
+                主题 - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v2.0.0
+            </span>
+        </div>
+      
+
+    
+        <div class="trm-footer-item">
+            博客已萌萌哒运行 <span id="since" class="trm-accent-color"></span> 天
+        </div>
+     
+
+    
+        <div class="trm-footer-item">
+            hahahahahaharik
+        </div>
+     
+</footer>
+
+<script>
+    function show_date_time () {
+        var BirthDay = new Date("01/11/2023 1:11:00");
+        var today = new Date();
+        var timeold = (today.getTime() - BirthDay.getTime());
+        var msPerDay = 24 * 60 * 60 * 1000
+        var day = Math.floor(timeold / msPerDay)
+        since.innerHTML = day
+    }
+    show_date_time()
+</script>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="阅读模式" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+        <div class="trm-fixed-btn" data-title="单栏和双栏切换" onclick="asyncFun.switchSingleColumn()">
+            <i class="iconfont fas fa-arrows-alt-h"></i>
+        </div>
+    
+</div>
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  <div id="trm-back-top" class="trm-back-top" data-title="回到顶部">
+    <i class="iconfont fas fa-arrow-up"></i>
+</div>
+  
+<div class="trm-search-popup">
+    <div class="trm-search-header">
+        <span class="trm-search-popup-btn-close">
+            <i class="iconfont fas fa-times"></i>
+        </span>
+    </div>
+    <div class="form trm-search-form">
+        <input class="trm-search-input" type="text" placeholder="搜索...">
+    </div>
+    <div class="trm-search-result-container">
+
+    </div>
+</div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.0.0"></script>
+
+</body>
+
+</html>
