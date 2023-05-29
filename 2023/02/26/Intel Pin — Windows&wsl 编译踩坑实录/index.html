@@ -7,12 +7,12 @@
 <meta name="full-screen" content="yes">
 <meta name="theme-color" content="#317EFB" />
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
-<meta name="description" content="这几天搞这个编译问题人都快要炸裂了，属实不容易，看到编译就怕😟就当是积累一些编译问题的处理经验吧 先简单说说最后的解决方法：问题出现在3.26版本的pin，dll死活编译不出来，最后换个版本，用vs2019的工作夹解决问题 踩坑1-mingw32-make报错版本信息3.26-windows，mingw32-make的时候报错 上网搜cut是linux的命令，最初编译so和o文件的时候没有问题，">
+<meta name="description" content="这几天搞这个编译问题人都快要炸裂了,属实不容易,看到编译就怕😟就当是积累一些编译问题的处理经验吧 先简单说说最后的解决方法:问题出现在3.26版本的pin,dll死活编译不出来,最后换个版本,用vs2019的工作夹解决问题 踩坑1-mingw32-make报错版本信息3.26-windows,mingw32-make的时候报错 上网搜cut是linux的命令,最初编译so和o文件的时候没有问题,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Intel Pin — Windows&amp;wsl 编译踩坑实录">
 <meta property="og:url" content="https://hur1k.github.io/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/index.html">
 <meta property="og:site_name" content="Hur1k的小站 (╹ڡ╹ )">
-<meta property="og:description" content="这几天搞这个编译问题人都快要炸裂了，属实不容易，看到编译就怕😟就当是积累一些编译问题的处理经验吧 先简单说说最后的解决方法：问题出现在3.26版本的pin，dll死活编译不出来，最后换个版本，用vs2019的工作夹解决问题 踩坑1-mingw32-make报错版本信息3.26-windows，mingw32-make的时候报错 上网搜cut是linux的命令，最初编译so和o文件的时候没有问题，">
+<meta property="og:description" content="这几天搞这个编译问题人都快要炸裂了,属实不容易,看到编译就怕😟就当是积累一些编译问题的处理经验吧 先简单说说最后的解决方法:问题出现在3.26版本的pin,dll死活编译不出来,最后换个版本,用vs2019的工作夹解决问题 踩坑1-mingw32-make报错版本信息3.26-windows,mingw32-make的时候报错 上网搜cut是linux的命令,最初编译so和o文件的时候没有问题,">
 <meta property="og:locale">
 <meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
 <meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
 <meta property="og:image" content="https://hur1k.github.io/img/404.jpg">
 <meta property="article:published_time" content="2023-02-26T03:34:49.359Z">
-<meta property="article:modified_time" content="2023-02-26T03:40:48.666Z">
+<meta property="article:modified_time" content="2023-05-29T13:10:10.655Z">
 <meta property="article:author" content="Hur1k">
 <meta property="article:tag" content="pin">
 <meta name="twitter:card" content="summary">
@@ -72,7 +72,7 @@
 
 <!-- Variable -->
 <script>window.ASYNC_CONFIG = {"hostname":"hur1k.github.io","author":"Hur1k","root":"/","typed_text":"hahahahhahahahaharik","theme_version":"2.0.0","theme":{"switch":true,"default":"auto"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":true,"hidden":"/failure.ico","showText":"(/≧▽≦/)","hideText":"404 Error"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"fas fa-yin-yang","user":"fas fa-user-secret","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"mac","height_limit":300},"notice_outdate":{"enable":true,"style":"simple","limit_day":365,"position":"top","limit_dat":2}};</script>
-<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-02-26 11:40:48"};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-05-29 21:10:10"};</script>
 
 <!-- Theme mode css -->
 <link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.0" id="trm-switch-style">
@@ -405,16 +405,16 @@
 </div>
 <div class="trm-card ">
     <article id="article-container" class="trm-publication">
-    <p>这几天搞这个编译问题人都快要炸裂了，属实不容易，看到编译就怕😟就当是积累一些编译问题的处理经验吧</p>
-<p>先简单说说最后的解决方法：问题出现在3.26版本的pin，dll死活编译不出来，最后换个版本，用vs2019的工作夹解决问题</p>
-<h1 id="踩坑1-mingw32-make报错"><a href="#踩坑1-mingw32-make报错" class="headerlink" title="踩坑1-mingw32-make报错"></a>踩坑1-mingw32-make报错</h1><p>版本信息3.26-windows，mingw32-make的时候报错</p>
-<p>上网搜cut是linux的命令，最初编译so和o文件的时候没有问题，主要问题出在dll，想起来mingw有个make试试能不能解决</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PS \pin\pin-3.26-98690-g1fc9d60e6-msvc-windows\<span class="built_in">source</span>\tools\Insmix&gt; mingw32-make.exe</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令，也不是可运行的程序</span><br><span class="line">或批处理文件。</span><br><span class="line"><span class="built_in">mkdir</span> -p obj-intel64/</span><br><span class="line">命令语法不正确。</span><br><span class="line">mingw32-make: *** [../../../source/tools/Config/makefile.default.rules:50: obj-intel64/] Error 1</span><br></pre></td></tr></table></figure>
+    <p>这几天搞这个编译问题人都快要炸裂了,属实不容易,看到编译就怕😟就当是积累一些编译问题的处理经验吧</p>
+<p>先简单说说最后的解决方法:问题出现在3.26版本的pin,dll死活编译不出来,最后换个版本,用vs2019的工作夹解决问题</p>
+<h1 id="踩坑1-mingw32-make报错"><a href="#踩坑1-mingw32-make报错" class="headerlink" title="踩坑1-mingw32-make报错"></a>踩坑1-mingw32-make报错</h1><p>版本信息3.26-windows,mingw32-make的时候报错</p>
+<p>上网搜cut是linux的命令,最初编译so和o文件的时候没有问题,主要问题出在dll,想起来mingw有个make试试能不能解决</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PS \pin\pin-3.26-98690-g1fc9d60e6-msvc-windows\<span class="built_in">source</span>\tools\Insmix&gt; mingw32-make.exe</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令,也不是可运行的程序</span><br><span class="line">或批处理文件.</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令,也不是可运行的程序</span><br><span class="line">或批处理文件.</span><br><span class="line"><span class="string">&#x27;cut&#x27;</span> 不是内部或外部命令,也不是可运行的程序</span><br><span class="line">或批处理文件.</span><br><span class="line"><span class="built_in">mkdir</span> -p obj-intel64/</span><br><span class="line">命令语法不正确.</span><br><span class="line">mingw32-make: *** [../../../source/tools/Config/makefile.default.rules:50: obj-intel64/] Error 1</span><br></pre></td></tr></table></figure>
 
 <h1 id="踩坑2-linux-wsl无法运行32位"><a href="#踩坑2-linux-wsl无法运行32位" class="headerlink" title="踩坑2-linux-wsl无法运行32位"></a>踩坑2-linux-wsl无法运行32位</h1><blockquote>
-<p>但是尝试用wsl编译so和o也出现了点问题，记录一下，最后的解决方法是在VM虚拟机里使用</p>
+<p>但是尝试用wsl编译so和o也出现了点问题,记录一下,最后的解决方法是在VM虚拟机里使用</p>
 </blockquote>
-<p>可以make，但是里面的pin是32位。。。。运行不了</p>
+<p>可以make,但是里面的pin是32位….运行不了</p>
 <aside>
 ⚠️ bash: ./pin: cannot execute binary file: Exec format error
 
@@ -426,14 +426,14 @@
 
 </aside>
 
-<p>看到文件夹中有个intel64，里面也有pin，尝试运行，提示缺乏链接库</p>
+<p>看到文件夹中有个intel64,里面也有pin,尝试运行,提示缺乏链接库</p>
 <aside>
 ⚠️ [libxed.so](http://libxed.so/): cannot open shared object file: No such file or directory
 
 </aside>
 
-<p>但是找不到这个库，估计是工具内的</p>
-<h2 id="WSL无法运行32位程序"><a href="#WSL无法运行32位程序" class="headerlink" title="WSL无法运行32位程序"></a>WSL无法运行32位程序</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/TatuCz/p/10330820.html">Bash On Windows(WSL)无法运行32Bit程序，报错cannot execute binary file: Exec format error解决办法</a></p>
+<p>但是找不到这个库,估计是工具内的</p>
+<h2 id="WSL无法运行32位程序"><a href="#WSL无法运行32位程序" class="headerlink" title="WSL无法运行32位程序"></a>WSL无法运行32位程序</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/TatuCz/p/10330820.html">Bash On Windows(WSL)无法运行32Bit程序,报错cannot execute binary file: Exec format error解决办法</a></p>
 <p>如链接中的指示,尝试交给qemu来执行这里的32位, 也可以用<code>qemu-i386-static ./pin</code> 来运行,很可惜又报错了</p>
 <aside>
 ⚠️ ./pin
@@ -441,10 +441,10 @@ qemu-i386-static: Unable to reserve 0xfffff000 bytes of virtual address space at
 
 </aside>
 
-<p>不想管了（；´д｀）ゞ</p>
-<h1 id="踩坑3-cl命令找不到-link命令出现问题"><a href="#踩坑3-cl命令找不到-link命令出现问题" class="headerlink" title="踩坑3-cl命令找不到-link命令出现问题"></a>踩坑3-cl命令找不到-link命令出现问题</h1><p>后面发现在windows上使用make要提前安装cygwin make（其实文档上有写）, 简单介绍就是可原生运行于Windows系统上的POSIX兼容环境，看图就明白了，是不是和linux上很像😀</p>
+<p>不想管了(;´д｀)ゞ</p>
+<h1 id="踩坑3-cl命令找不到-link命令出现问题"><a href="#踩坑3-cl命令找不到-link命令出现问题" class="headerlink" title="踩坑3-cl命令找不到-link命令出现问题"></a>踩坑3-cl命令找不到-link命令出现问题</h1><p>后面发现在windows上使用make要提前安装cygwin make(其实文档上有写), 简单介绍就是可原生运行于Windows系统上的POSIX兼容环境,看图就明白了,是不是和linux上很像😀</p>
 <p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%201.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<p>在编译另一个tools时出现的问题，安装好cygwin后要给cygwin的bin配置一下环境变量，重新make报错</p>
+<p>在编译另一个tools时出现的问题,安装好cygwin后要给cygwin的bin配置一下环境变量,重新make报错</p>
 <aside>
 ⚠️ make obj-intel64/MyPinTool.dll
 cl /EHs- /EHa- /wd4530 /DTARGET_WINDOWS /nologo /Gy  /Oi- /GR- /GS- /DPIN_CRT=1 /D_WINDOWS_H_PATH_="" /D__LP64__ /DTARGET_IA32E /DHOST_IA32E /I../../../source/include/pin /I../../../source/include/pin/gen -I../../../extras/stlport/include -I../../../extras -I../../../extras/libstdc++/include -I../../../extras/crt/include -I../../../extras/crt -I../../../extras/crt/include/arch-x86_64 -I../../../extras/crt/include/kernel/uapi -I../../../extras/crt/include/kernel/uapi/asm-x86 /FIinclude/msvc_compat.h /I../../../extras/components/include /I../../../extras/xed-intel64/include/xed /I../../../source/tools/Utils /I../../../source/tools/InstLib /MD /O2  /c /Foobj-intel64/MyPinTool.obj MyPinTool.cpp
@@ -453,7 +453,7 @@ make: *** [../../../source/tools/Config/makefile.default.rules:233: obj-intel64/
 
 </aside>
 
-<p>没有cl.exe的话就找，这是一个Microsoft C&#x2F;C++ 编译器，如果有VS的话应该都有，添加到环境变量重新make</p>
+<p>没有cl.exe的话就找,这是一个Microsoft C&#x2F;C++ 编译器,如果有VS的话应该都有,添加到环境变量重新make</p>
 <aside>
 ⚠️ make obj-intel64/MyPinTool.dll
 cl /EHs- /EHa- /wd4530 /DTARGET_WINDOWS /nologo /Gy  /Oi- /GR- /GS- /DPIN_CRT=1 /D_WINDOWS_H_PATH_="" /D__LP64__ /DTARGET_IA32E /DHOST_IA32E /I../../../source/include/pin /I../../../source/include/pin/gen -I../../../extras/stlport/include -I../../../extras -I../../../extras/libstdc++/include -I../../../extras/crt/inclutras/crt/include/kernel/uapi -I../../../extras/crt/include/kernel/uapi/asm-x86 /FIinclude/msvc_compat.h /I../../../extras/components/include /I../../../extras/xed-intel64/include/xed /I../../../source/tools/Utils /I../../../source/tools/InstLib /MD /O2  /c /Foobj-intel64/MyPinTool.obj MyPinTool.cpp
@@ -468,42 +468,42 @@ make: *** [../../../source/tools/Config/makefile.default.rules:241: obj-intel64/
 
 </aside>
 
-<p>link.exe又出错了，就很烦</p>
-<h1 id="官档说明"><a href="#官档说明" class="headerlink" title="官档说明"></a>官档说明</h1><p>最后还是选择慢慢看文档，官档+chatgpt的更详细解释</p>
+<p>link.exe又出错了,就很烦</p>
+<h1 id="官档说明"><a href="#官档说明" class="headerlink" title="官档说明"></a>官档说明</h1><p>最后还是选择慢慢看文档,官档+chatgpt的更详细解释</p>
 <aside>
-💡 当你想要在Windows上编译Pintools时，你需要注意以下事项：
+💡 当你想要在Windows上编译Pintools时,你需要注意以下事项:
 
 <ol>
-<li>由于Pintools使用make来构建，因此请确保首先安装了Cygwin make。</li>
-<li>打开与你的目标架构（x86或x64）对应的Visual Studio命令提示符，并按照Building the Example Tools部分中的步骤进行操作。</li>
+<li>由于Pintools使用make来构建,因此请确保首先安装了Cygwin make.</li>
+<li>打开与你的目标架构(x86或x64)对应的Visual Studio命令提示符,并按照Building the Example Tools部分中的步骤进行操作.</li>
 </ol>
-<p>具体来说，你需要按照以下步骤进行操作：</p>
+<p>具体来说,你需要按照以下步骤进行操作:</p>
 <ol>
-<li>下载并安装Cygwin，包括make工具。</li>
-<li>安装Visual Studio（建议使用最新版本），并安装Windows SDK（如果尚未安装）。</li>
-<li>打开与你的目标架构对应的Visual Studio命令提示符，例如在64位Windows上，你需要打开“x64 Native Tools Command Prompt for VS2017”或类似的命令提示符。</li>
-<li>在命令提示符中，导航到你的Pintools源代码目录。</li>
-<li>运行“premake5 vs2017”（或与你的Visual Studio版本对应的命令），以生成Visual Studio项目文件。</li>
-<li>使用Visual Studio打开生成的.sln文件。</li>
-<li>编译和构建你的Pintools项目。如果一切顺利，你将得到一个可以在Pin工具中使用的Pintool。</li>
+<li>下载并安装Cygwin,包括make工具.</li>
+<li>安装Visual Studio(建议使用最新版本),并安装Windows SDK(如果尚未安装).</li>
+<li>打开与你的目标架构对应的Visual Studio命令提示符,例如在64位Windows上,你需要打开”x64 Native Tools Command Prompt for VS2017”或类似的命令提示符.</li>
+<li>在命令提示符中,导航到你的Pintools源代码目录.</li>
+<li>运行”premake5 vs2017”(或与你的Visual Studio版本对应的命令),以生成Visual Studio项目文件.</li>
+<li>使用Visual Studio打开生成的.sln文件.</li>
+<li>编译和构建你的Pintools项目.如果一切顺利,你将得到一个可以在Pin工具中使用的Pintool.</li>
 </ol>
-<p>总之，你需要在Windows上安装必要的工具，并在Visual Studio命令提示符中使用make和premake5工具来构建Pintools</p>
+<p>总之,你需要在Windows上安装必要的工具,并在Visual Studio命令提示符中使用make和premake5工具来构建Pintools</p>
 </aside>
 
 <p>重新尝试make</p>
 <aside>
 ⚠️ make all TARGET=intel64
 
-<p>…省略前面内容<br>inscount0.cpp<br>inscount0.cpp(1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢 失<br>inscount0.cpp(34): error C2601: “Fini”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个“{”没有匹配项<br>inscount0.cpp(46): error C2601: “Usage”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个“{”没有匹配项<br>inscount0.cpp(59): error C2601: “main”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个“{”没有匹配项<br>inscount0.cpp(26): fatal error C1075: “{”: 未找到匹配令牌<br>make[1]: *** [..&#x2F;..&#x2F;..&#x2F;source&#x2F;tools&#x2F;Config&#x2F;makefile.default.rules:233: obj-intel64&#x2F;inscount0.obj] Error 2<br>make[1]: Leaving directory<br>make: *** [..&#x2F;Config&#x2F;makefile.config:377: all] Error 2</p>
+<p>…省略前面内容<br>inscount0.cpp<br>inscount0.cpp(1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符.请将该文件保存为 Unicode 格式以防止数据丢 失<br>inscount0.cpp(34): error C2601: “Fini”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个”{“没有匹配项<br>inscount0.cpp(46): error C2601: “Usage”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个”{“没有匹配项<br>inscount0.cpp(59): error C2601: “main”: 本地函数定义是非法的<br>inscount0.cpp(26): note: 此行有一个”{“没有匹配项<br>inscount0.cpp(26): fatal error C1075: “{“: 未找到匹配令牌<br>make[1]: *** [..&#x2F;..&#x2F;..&#x2F;source&#x2F;tools&#x2F;Config&#x2F;makefile.default.rules:233: obj-intel64&#x2F;inscount0.obj] Error 2<br>make[1]: Leaving directory<br>make: *** [..&#x2F;Config&#x2F;makefile.config:377: all] Error 2</p>
 </aside>
 
-<p>出现这个错误回显是我在学习pin的时候在cpp里加了些中文注释，删掉重新make，终终于于全部通过了qwq，除了会报一个小waring</p>
+<p>出现这个错误回显是我在学习pin的时候在cpp里加了些中文注释,删掉重新make,终终于于全部通过了qwq,除了会报一个小waring</p>
 <aside>
-⚠️ LINK : warning LNK4281:x64 映像的基址 0xC5000000 不适当；将基址设为 4 GB 以上以实现最佳 ASLR 优化
+⚠️ LINK : warning LNK4281:x64 映像的基址 0xC5000000 不适当;将基址设为 4 GB 以上以实现最佳 ASLR 优化
 
 </aside>
 
-<p>然鹅，尽管是通过了但是实际还是使用不了</p>
+<p>然鹅,尽管是通过了但是实际还是使用不了</p>
 <aside>
 ⚠️ E: [tid:30696] Failure to map DLL E:\CTF\Practice\frida-hook\inscount0.dll
 E:       System error 216 :
@@ -512,23 +512,23 @@ E:       System error 216 :
 
 <h1 id="踩坑4-vs2019无法解析的外部指令"><a href="#踩坑4-vs2019无法解析的外部指令" class="headerlink" title="踩坑4-vs2019无法解析的外部指令"></a>踩坑4-vs2019无法解析的外部指令</h1><p>看到另一种编译方法就是用文件给的工作空间进行编译</p>
 <p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%202.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<p>打开后把要编译的工具移入项目编译就行，但是这里还是报错了</p>
+<p>打开后把要编译的工具移入项目编译就行,但是这里还是报错了</p>
 <p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%203.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<h1 id="避坑-换版本"><a href="#避坑-换版本" class="headerlink" title="避坑-换版本"></a>避坑-换版本</h1><p>当时也不知道咋想的，突然想换个版本测试一下，结果就成功了😅附带几张成功的截图吧，这里可以看到dll文件以及编译出来了</p>
+<h1 id="避坑-换版本"><a href="#避坑-换版本" class="headerlink" title="避坑-换版本"></a>避坑-换版本</h1><p>当时也不知道咋想的,突然想换个版本测试一下,结果就成功了😅附带几张成功的截图吧,这里可以看到dll文件以及编译出来了</p>
 <p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%204.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<p>下面都是些warning，没报错就行qwq</p>
+<p>下面都是些warning,没报错就行qwq</p>
 <p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%205.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
 <p>测试一下</p>
 <p><img src="/2023/02/26/Intel%20Pin%20%E2%80%94%20Windows&wsl%20%E7%BC%96%E8%AF%91%E8%B8%A9%E5%9D%91%E5%AE%9E%E5%BD%95/Untitled%206.png" alt="Untitled" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>pin的编译方法大概有下面这几种：</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>pin的编译方法大概有下面这几种:</p>
 <ol>
-<li>通过MyPinTool文件夹下的工作空间MyPinTool.vcxproj，在vs内进行编译</li>
+<li>通过MyPinTool文件夹下的工作空间MyPinTool.vcxproj,在vs内进行编译</li>
 <li>根据<a target="_blank" rel="noopener" href="https://software.intel.com/sites/landingpage/pintool/docs/98690/Pin/doc/html/index.html#WindowsNotes">官档</a>使用cygwin make以及对应目标架构(x86或x64)的Visual Studio命令提示符进行编译</li>
 <li>换版本😁</li>
 </ol>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a target="_blank" rel="noopener" href="https://software.intel.com/sites/landingpage/pintool/docs/98690/Pin/doc/html/index.html#WindowsNotes">Pin 3.26 User Guide</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cygwin.com/">cygwin</a></p>
-<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-267179.htm">Tenet 技术路线</a> （没错，这里也有一些编译问题处理的指导）</p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-267179.htm">Tenet 技术路线</a> (没错,这里也有一些编译问题处理的指导)</p>
 
 </article>
     
